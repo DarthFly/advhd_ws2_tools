@@ -33,11 +33,11 @@ Short steps that may be required for Windows:
 1. Go to [download](https://windows.php.net/download/) page and get something like "VS16 x64 Thread Safe" zip file.
 2. Extract it to some separate folder (`"C:\php8\"`)
 3. Rename `php.ini-development` to `php.ini`
-4. Edit it and uncomment line `;extension=mbstring` -> `extension=mbstring`. Save.
-5. You should be ok to use it from the command line `C:\php8\php.exe D:\wings\arc_compile.php`
+4. Edit it and uncomment line `;extension=mbstring` -> `extension=mbstring`. Uncomment line with `extension_dir = ` under "On windows". Save.
+5. You should be ok to use it from the command line `C:\php8\php.exe D:\wings\ws2_decompile.php`
 6. You can register a program in the Windows PATH config, so it could be run via `php` only.
     * See [here](https://www.php.net/manual/en/install.windows.commandline.php) or [here](https://www.forevolve.com/en/articles/2016/10/27/how-to-add-your-php-runtime-directory-to-your-windows-10-path-environment-variable/).
-    * If done correctly and if you are located inside `D:\wings\` folder with scripts you should be good to run just `php arc_compile.php`.
+    * If done correctly and if you are located inside `D:\wings\` folder with scripts you should be good to run just `php ws2_decompile.php`.
 
 ## Usage
 
