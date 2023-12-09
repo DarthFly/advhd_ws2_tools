@@ -18,7 +18,7 @@ class Unk7B extends AbstractOpcode
         //$config = $this->reader->readData($dataSource, 6);
         $this->compiledSize = 1 + $layerLen + $nameLen/* + 4 + 4 + 6*/;
 
-        $this->content = static::FUNC . " ({$layer}, {$filename}";
+        $this->content = static::FUNC . " ({$layer}, {$filename})";
         return $this;
     }
 
