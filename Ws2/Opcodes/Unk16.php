@@ -2,6 +2,7 @@
 namespace Ws2\Opcodes;
 
 /**
+ * 16 [byte][>1.0 byte]
  */
 class Unk16 extends AbstractOpcode
 {

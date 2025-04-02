@@ -2,6 +2,7 @@
 namespace Ws2\Opcodes;
 
 /**
+ * 04 [string][NULL]
  */
 class RunFile extends AbstractNullByteText
 {

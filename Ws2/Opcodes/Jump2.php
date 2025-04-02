@@ -2,6 +2,7 @@
 namespace Ws2\Opcodes;
 
 /**
+ * 02 [int32]
  */
 class Jump2 extends AbstractOpcodeWithPointer
 {

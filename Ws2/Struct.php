@@ -36,7 +36,6 @@ class Struct
             $command = array_shift($this->data);
             $hex = $this->reader->getHex($command);
             if ($isFileStart && $hex === '00') {
-                $a = 1;
                 $isFileStart = false;
             }
             try {

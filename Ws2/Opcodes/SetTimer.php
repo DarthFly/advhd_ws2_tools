@@ -2,6 +2,7 @@
 namespace Ws2\Opcodes;
 
 /**
+ * 11 [string=name][NULL][>v1.4 byte][float]
  */
 class SetTimer extends AbstractOpcode
 {
@@ -31,7 +32,11 @@ class SetTimer extends AbstractOpcode
         $code = $this->reader->convertHexToChar(static::OPCODE) .
             $this->reader->packString($params[0]);
 
-        $code .= pack('cf', (int)$params[1], (float)$params[2]);
+        if ($this->version > 1.4) {
+            $code .= pack('cf', (int)$params[1], (float)$params[2]);
+        } else {
+            $code .= pack('f', (float)$params[2]);
+        }
         $this->content = $code;
         return $this;
     }

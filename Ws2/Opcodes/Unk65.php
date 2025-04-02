@@ -2,7 +2,7 @@
 namespace Ws2\Opcodes;
 
 /**
- *
+ * 65 [byte * 3][float][float][byte * 2]
  */
 class Unk65 extends AbstractOpcode
 {

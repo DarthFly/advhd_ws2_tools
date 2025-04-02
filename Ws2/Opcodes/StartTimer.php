@@ -2,6 +2,7 @@
 namespace Ws2\Opcodes;
 
 /**
+ * 12 [string=name][NULL][byte * 2]
  */
 class StartTimer extends AbstractOpcode
 {

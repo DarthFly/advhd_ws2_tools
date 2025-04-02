@@ -1,6 +1,9 @@
 <?php
 namespace Ws2\Opcodes;
 
+/*
+ * XX [string][NULL]
+ */
 abstract class AbstractNullByteText extends AbstractOpcode
 {
     public function decompile(array &$dataSource): self
