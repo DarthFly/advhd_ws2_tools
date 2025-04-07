@@ -21,7 +21,7 @@ class MoveBackground extends AbstractOpcode
         $float3 = $this->reader->readFloat($dataSource);
         $float4 = $this->reader->readFloat($dataSource);
         $this->compiledSize = 1 + $channelLen + 3 + 4 * 4;
-        if ($this->isUpdateMode && $this->version == 1.0) {
+        if ($this->updateMode > 0 && $this->version == 1.0) {
             if ($config[2] === 128) {
                 $config[2] = 240;
             }

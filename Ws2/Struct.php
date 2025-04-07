@@ -20,14 +20,14 @@ class Struct
     ) {
     }
 
-    public function generateScript(float $version, $isUpdateMode = false, int $offset = 0): array
+    public function generateScript(float $version, int $updateMode = 0, int $offset = 0): array
     {
         $this->totalSize = count($this->data);
         $script = [];
         $isFileStart = true;
         // Only for title.ws2, as it has empty zero offset at the start which could not be read in normal ways
         while ($offset > 0) {
-            $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $isUpdateMode);
+            $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
             $opcode->decompile($this->data);
             $script[] = $opcode;
             $offset --;
@@ -42,7 +42,7 @@ class Struct
                 $class = $this->opcodesList->getByOpcode($hex);
                 $class = 'Ws2\\Opcodes\\' . $class;
                 /** @var AbstractOpcode $opcode */
-                $opcode = new $class($this->reader, $version, $isUpdateMode, $this->textExtractor);
+                $opcode = new $class($this->reader, $version, $updateMode, $this->textExtractor);
                 $opcode->decompile($this->data);
                 $this->registerLabels($opcode);
                 $script[] = $opcode;
@@ -74,6 +74,9 @@ class Struct
 
     private function generateOutputLine(int $displayNumbers, int $perLine = 8): string
     {
+        if (empty($this->data)) {
+            return 'Full script processed';
+        }
         $lines = [];
         $result = [];
         for ($i=0; $i<$displayNumbers; $i++) {
@@ -124,6 +127,10 @@ class Struct
         }
         $result = [];
         $position = 0;
+        if (isset($this->labels[$position])) {
+            $result[] = $this->labels[$position];
+            unset($this->labels[$position]);
+        }
         while($opcode = array_shift($script)) {
             $position += $opcode->getCompiledSize();
             $result[] = $opcode;
@@ -134,7 +141,7 @@ class Struct
         }
         if (!empty($this->labels)) {
             print_r($this->labels);
-            throw new Exception('Not all labels are cleared');
+            $this->processOpcodeException(6, $result, 'Not all labels are cleared');
         }
         return $result;
     }

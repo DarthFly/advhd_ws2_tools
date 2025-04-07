@@ -52,7 +52,7 @@ class ShowChoice extends AbstractOpcodeWithPointer
             $messageParams = array_shift($scriptLines);
             [$choiceId, $op1, $op2, $op3, $opJump, $pointer] = explode(', ', $messageParams);
             $text = array_shift($scriptLines);
-            if ($this->isUpdateMode) {
+            if ($this->updateMode > 0) {
                 $choiceId = $messageIdOverride;
                 $text = $choiceId . ' - ' . $text;
                 $messageIdOverride++;

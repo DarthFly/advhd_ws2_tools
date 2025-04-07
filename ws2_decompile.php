@@ -11,12 +11,13 @@ include_once "class_loader.php";
 $extractor = new Helper\ParamsExtractor();
 $options = $extractor->extractParams($argv, [
     new Helper\OptionParam('decrypt', '0', ['d', 'dec']), // 0 / 1
-    new Helper\OptionParam('mode', 'default', ['m']), // default / update
+    new Helper\OptionParam('mode', 'default', ['m']), // default / update / debug
     new Helper\OptionParam('text_file', null, ['text', 'file', 't']),
 ]);
 
 $version = (float)$version;
-$isUpdateMode = $options['mode'] === 'update';
+$updateMode = \Helper\Config::$modes[$options['mode']] ?? \Helper\Config::MODE_DEFAULT;
+
 $isRequireDecrypt = (bool)$options['decrypt'];
 
 $folder = rtrim($folder, '/');
@@ -65,7 +66,7 @@ foreach ($files as $id => $file) {
         $offset = $specificFiles[$fileName];
     }
     $struct = new Ws2\Struct($reader, $opcodesList, $data, $textExtractor, $offset);
-    $script = $struct->generateScript($version, $isUpdateMode, $offset);
+    $script = $struct->generateScript($version, $updateMode, $offset);
     file_put_contents($file . '.src', implode("\n", $script));
     echo "Parsed time: " . round(microtime(true) - $time, 2) . "\n";
 }

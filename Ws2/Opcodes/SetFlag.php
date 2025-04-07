@@ -1,6 +1,9 @@
 <?php
 namespace Ws2\Opcodes;
 
+/**
+ * 0B [int16][byte]
+ */
 class SetFlag extends AbstractOpcode
 {
     public const OPCODE = '0B';

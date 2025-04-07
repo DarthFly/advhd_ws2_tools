@@ -1,12 +1,10 @@
 <?php
 namespace Ws2\Opcodes;
 
-use Ws2\FilesValidator;
-
 /**
  *
  */
-class DisplayMessage extends AbstractOpcode
+class DisplayMessage extends AbstractMessage
 {
     public const OPCODE = '14';
     public const FUNC = 'DisplayMessage';
@@ -28,9 +26,8 @@ class DisplayMessage extends AbstractOpcode
         }
 
         $this->textExtractor?->setMessage($message);
-        // @todo validate size for compilation!
         $return = static::FUNC . " ($messageId, $layer, $type\n{$message}\n);";
-        if ($this->isUpdateMode && $this->version == 1.0) {
+        if ($this->updateMode > 0 && $this->version == 1.0) {
             array_unshift($dataSource, 0x15, 0);
             $this->compiledSize -= 2;
         }
@@ -40,17 +37,15 @@ class DisplayMessage extends AbstractOpcode
 
     public function preCompile(?string $params = null, ?array &$scriptLines = [], int &$messageIdOverride = 0): self
     {
-        $message = '';
-        $textLine = array_shift($scriptLines);
-        while($textLine !== ');') {
-            $message .= $textLine;
-            $textLine = array_shift($scriptLines);
-        }
+        $message = $this->readMessage($scriptLines);
         [$messageId, $layer, $type] = $this->reader->unpackParams($params . ')');
-        if ($this->isUpdateMode) {
+        if ($this->updateMode > 0) {
             $messageId = $messageIdOverride;
-            //$message = $messageId . ' - ' . $message;
             $messageIdOverride++;
+            if ($this->updateMode === \Helper\Config::MODE_DEBUG) {
+                global $fileNameNoWs;
+                $message = '['.$fileNameNoWs.'] '.$messageId.' - ' . $message;
+            }
         }
         $code = $this->reader->convertHexToChar(static::OPCODE) .
             pack('V', (int)$messageId) .
@@ -59,15 +54,5 @@ class DisplayMessage extends AbstractOpcode
             pack ('c', (int)$type);
         $this->content = $code;
         return $this;
-    }
-
-    public function validate(?string $params, array &$dataSource, FilesValidator $filesValidator): ?string
-    {
-        // Skip some lines
-        $textLine = array_shift($dataSource);
-        while($textLine !== ');') {
-            $textLine = array_shift($dataSource);
-        }
-        return null;
     }
 }

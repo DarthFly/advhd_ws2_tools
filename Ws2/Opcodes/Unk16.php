@@ -16,7 +16,7 @@ class Unk16 extends AbstractOpcode
             $size ++;
         }
         $options = $this->reader->readData($dataSource, $size);
-        if ($this->isUpdateMode && $this->version == 1.0) {
+        if ($this->updateMode > 0 && $this->version == 1.0) {
             $options[] = 0;
         }
         $this->compiledSize = 1 + $size;

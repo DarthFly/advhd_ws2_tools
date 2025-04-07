@@ -1,8 +1,6 @@
 <?php
 namespace Ws2\Opcodes;
 
-use Ws2\FilesValidator;
-
 /**
  * 33 [string=channel][NULL][string=name][NULL]
  */

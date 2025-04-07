@@ -6,7 +6,7 @@ use Ws2\Opcodes\AbstractOpcode;
 
 class Compiler
 {
-    private $labels = [];
+    private array $labels = [];
 
     public function __construct(
         protected Reader $reader,
@@ -15,7 +15,7 @@ class Compiler
     ) {
     }
 
-    public function run(string $file, float $version, bool $isUpdateMode = false): void
+    public function run(string $file, float $version, int $updateMode): void
     {
         $isComment = false;
         $code = [];
@@ -43,7 +43,7 @@ class Compiler
                     continue;
                 }
                 if ($line === 'ZeroOffset') {
-                    $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $isUpdateMode);
+                    $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
                     $opcode->preCompile($params, $this->scriptLines, $messageId);
                     $code[] = $opcode;
                     continue;
@@ -54,7 +54,7 @@ class Compiler
                 $className = $this->opcodesList->getByFunctions($function);
                 $class = 'Ws2\\Opcodes\\' . $className;
                 /** @var AbstractOpcode $opcode */
-                $opcode = new $class($this->reader, $version, $isUpdateMode);
+                $opcode = new $class($this->reader, $version, $updateMode);
                 $opcode->preCompile($params, $this->scriptLines, $messageId);
                 $code[] = $opcode;
             } catch (Exception $e) {

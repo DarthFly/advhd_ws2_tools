@@ -19,7 +19,7 @@ class PlayMusic extends AbstractOpcode
             $size += 4;
         }
         $config = $this->reader->readData($dataSource, $size);
-        if ($this->isUpdateMode && $this->version == 1.0) {
+        if ($this->updateMode > 0 && $this->version == 1.0) {
             $config[] = 0;
             $config[] = 0;
             $config[] = 0;

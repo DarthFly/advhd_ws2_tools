@@ -6,13 +6,13 @@ $compileFiles = array_splice($argv, 4);
 $compileFiles = array_flip($compileFiles);
 
 if (!$folder || !is_dir($folder)) {
-    echo "Usage: php ws2_compile.php DIR_TO_COMPILE 1.0|1.9 [update|default] [...files]";
+    echo "Usage: php ws2_compile.php DIR_TO_COMPILE 1.0|1.9 [update|default|debug] [...files]";
     exit();
 }
 include_once "class_loader.php";
 
 $version = (float)$version;
-$isUpdateMode = $mode === 'update';
+$updateMode = \Helper\Config::$modes[$mode] ?? \Helper\Config::MODE_DEFAULT;
 
 $ignoreFiles = [/*'CG_Achievement.ws2' => 1*/];
 
@@ -42,7 +42,7 @@ foreach ($files as $file) {
 
     $file = str_replace('.src', '.cmp', $file);
     $compiler = new Ws2\Compiler($reader, $opcodesList, $lines);
-    $compiler->run($file, $version, $isUpdateMode);
+    $compiler->run($file, $version, $updateMode);
 
     $fileContent = file_get_contents($file);
 

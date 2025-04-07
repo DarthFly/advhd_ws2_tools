@@ -1,6 +1,9 @@
 <?php
 namespace Ws2\Opcodes;
 
+/**
+ * 06 [int32]
+ */
 class Jump extends AbstractOpcodeWithPointer
 {
     public const OPCODE = '06';

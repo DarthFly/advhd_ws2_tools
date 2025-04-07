@@ -21,7 +21,7 @@ class Effect1 extends AbstractOpcode
         $floats = $this->reader->readFloats($dataSource, 6);
         $config2 = $this->reader->readData($dataSource, 2);
         $this->compiledSize = 1 + $channelLen + $nameLen + 4 + 6 * 4 + 2;
-        if ($this->isUpdateMode && $this->version == 1.0) {
+        if ($this->updateMode > 0 && $this->version == 1.0) {
             if ($config[3] === 128) {
                 $config[3] = 192;
             }

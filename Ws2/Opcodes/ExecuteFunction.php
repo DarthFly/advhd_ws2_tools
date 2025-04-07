@@ -20,7 +20,7 @@ class ExecuteFunction extends AbstractOpcode
         }
         $config = $this->reader->readData($dataSource, $size);
         $this->compiledSize = 1 + $len + $strLen + $size;
-        if ($this->isUpdateMode && $this->version == 1.0) {
+        if ($this->updateMode > 0 && $this->version == 1.0) {
             $config[] = 0;
         }
         $this->content = static::FUNC . " ({$function}, {$string}, ".implode(', ', $config).")";

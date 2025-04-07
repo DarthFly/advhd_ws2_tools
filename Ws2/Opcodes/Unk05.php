@@ -8,6 +8,6 @@ class Unk05 extends AbstractUndefined
     
     public function getSize(): int
     {
-        return 9;
+        return 0;
     }
 }

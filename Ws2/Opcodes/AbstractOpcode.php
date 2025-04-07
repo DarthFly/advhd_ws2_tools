@@ -19,7 +19,7 @@ abstract class AbstractOpcode
     public function __construct(
         protected Reader $reader,
         protected string $version,
-        protected bool $isUpdateMode = false,
+        protected int $updateMode = 0,
         protected ?TextExtractor $textExtractor = null
     ) {
     }
