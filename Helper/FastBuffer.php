@@ -89,11 +89,6 @@ class FastBuffer
     }
 
     /**
-     * Reads a null-terminated string from the buffer.
-     *
-     * @return string The read string.
-     */
-    /**
      * Reads a null-terminated string from the buffer efficiently.
      *
      * @return string The read string.
