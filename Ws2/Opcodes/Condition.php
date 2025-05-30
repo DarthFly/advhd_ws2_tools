@@ -15,7 +15,7 @@ class Condition extends AbstractOpcodeWithPointer
         $this->compiledSize = 2;
         $this->content = static::FUNC . " ({$configValue}";
         // The "$configValue === 3" part is validation for mainmenu vs HOT_001 - one has IF, another doesn't.
-        if (in_array($configValue, [2,128,129,130], true) || ($configValue === 3 && in_array($dataSource[0],[50,51,127,128], true))) {
+        if (in_array($configValue, [2,128,129,130], true) || ($configValue === 3 && in_array($dataSource->buffer[0],[50,51,127,128], true))) {
             $globalId = $this->reader->readWord($dataSource);
             $float = $this->reader->readFloat($dataSource); // Block id for CG_PAGES
             $pointer1 = $this->reader->readDWord($dataSource);
