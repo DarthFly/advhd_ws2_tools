@@ -8,7 +8,7 @@ class Unk4A extends AbstractOpcode
     public const OPCODE = '4A';
     public const FUNC = 'Unk4A';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         [$name, $nameLen] = $this->reader->readString($dataSource);

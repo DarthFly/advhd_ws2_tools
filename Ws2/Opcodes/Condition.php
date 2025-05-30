@@ -9,7 +9,7 @@ class Condition extends AbstractOpcodeWithPointer
     public const OPCODE = '01';
     public const FUNC = 'Condition';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$configValue] = $this->reader->readData($dataSource, 1);
         $this->compiledSize = 2;

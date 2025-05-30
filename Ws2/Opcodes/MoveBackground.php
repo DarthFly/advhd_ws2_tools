@@ -12,7 +12,7 @@ class MoveBackground extends AbstractOpcode
     public const OPCODE = '46';
     public const FUNC = 'MoveBackground';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $config = $this->reader->readData($dataSource, 3);

@@ -61,7 +61,7 @@ abstract class AbstractOpcode
     /**
      * @throws Exception
      */
-    abstract public function decompile(array &$dataSource): self;
+    abstract public function decompile(\Helper\FastBuffer &$dataSource): self;
 
     abstract public function preCompile(?string $params = null): self;
 

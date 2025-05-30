@@ -12,7 +12,7 @@ class UnkBackground2 extends AbstractOpcode
     public const OPCODE = '3A';
     public const FUNC = 'UnkBackground2';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $configBytes = $this->reader->readData($dataSource, 2);

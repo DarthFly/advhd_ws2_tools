@@ -12,7 +12,7 @@ class DragBackground extends AbstractOpcode
     public const OPCODE = '45';
     public const FUNC = 'DragBackground';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $config = $this->reader->readData($dataSource, 2);

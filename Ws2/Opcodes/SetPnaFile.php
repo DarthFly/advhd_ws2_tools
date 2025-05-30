@@ -9,7 +9,7 @@ class SetPnaFile extends AbstractOpcode
     public const OPCODE = '73';
     public const FUNC = 'SetPnaFile';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$layer, $layerLen] = $this->reader->readString($dataSource);
         [$filename, $nameLen] = $this->reader->readString($dataSource); // ?

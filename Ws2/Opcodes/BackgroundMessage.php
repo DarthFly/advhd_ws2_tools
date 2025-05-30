@@ -10,7 +10,7 @@ class BackgroundMessage extends AbstractMessage
     public const OPCODE = '3B';
     public const FUNC = 'BackgroundMessage';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $length] = $this->reader->readString($dataSource);
         [$message, $messageLen] = $this->reader->readString($dataSource);

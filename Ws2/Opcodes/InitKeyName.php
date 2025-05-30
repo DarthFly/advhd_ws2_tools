@@ -9,7 +9,7 @@ class InitKeyName extends AbstractOpcode
     public const OPCODE = '5B';
     public const FUNC = 'InitKeyName';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$keyName, $len] = $this->reader->readString($dataSource);
         $id = $this->reader->readWord($dataSource);

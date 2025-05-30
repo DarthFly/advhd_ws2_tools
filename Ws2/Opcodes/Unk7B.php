@@ -9,7 +9,7 @@ class Unk7B extends AbstractOpcode
     public const OPCODE = '7B';
     public const FUNC = 'Unk7B';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$layer, $layerLen] = $this->reader->readString($dataSource);
         [$filename, $nameLen] = $this->reader->readString($dataSource); // ?

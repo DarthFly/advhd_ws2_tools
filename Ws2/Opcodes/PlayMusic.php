@@ -10,7 +10,7 @@ class PlayMusic extends AbstractOpcode
 
     protected ?int $validateKey = 1;
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$nameId, $idLen] = $this->reader->readString($dataSource);
         [$filename, $nameLen] = $this->reader->readString($dataSource);

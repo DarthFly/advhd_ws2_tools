@@ -9,7 +9,7 @@ class SetVariable extends AbstractOpcode
     public const OPCODE = '6E';
     public const FUNC = 'SetVariable';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$variable, $len] = $this->reader->readString($dataSource);
         [$value, $valueLen] = $this->reader->readString($dataSource);

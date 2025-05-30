@@ -8,7 +8,7 @@ class PlayMovie extends AbstractOpcode
     public const OPCODE = '35';
     public const FUNC = 'PlayMovie';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$name, $len] = $this->reader->readString($dataSource);
         [$file, $filenameLen] = $this->reader->readString($dataSource);

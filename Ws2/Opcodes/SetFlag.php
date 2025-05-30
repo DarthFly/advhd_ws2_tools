@@ -9,7 +9,7 @@ class SetFlag extends AbstractOpcode
     public const OPCODE = '0B';
     public const FUNC = 'SetFlag';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $globalId = $this->reader->readWord($dataSource);
         [$value] = $this->reader->readData($dataSource, 1);

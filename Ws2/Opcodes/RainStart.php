@@ -8,7 +8,7 @@ class RainStart extends AbstractOpcode
     public const OPCODE = '56';
     public const FUNC = 'RainStart';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$string, $strLen] = $this->reader->readString($dataSource);
         $config = $this->reader->readData($dataSource, 7);

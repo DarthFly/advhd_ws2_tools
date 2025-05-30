@@ -9,7 +9,7 @@ class StartTimer extends AbstractOpcode
     public const OPCODE = '12';
     public const FUNC = 'StartTimer';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$name, $len] = $this->reader->readString($dataSource);
         $config = $this->reader->readData($dataSource, 2);

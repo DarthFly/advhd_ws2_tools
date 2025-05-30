@@ -9,7 +9,7 @@ class DisplayMessage extends AbstractMessage
     public const OPCODE = '14';
     public const FUNC = 'DisplayMessage';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $messageId = $this->reader->readDWord($dataSource);
         [$layer, $length] = $this->reader->readString($dataSource);

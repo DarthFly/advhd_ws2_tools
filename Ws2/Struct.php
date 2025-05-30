@@ -11,18 +11,21 @@ class Struct
 
     protected array $labels = [];
 
+    protected \Helper\FastBuffer $data;
+
     public function __construct(
         protected Reader $reader,
         protected OpcodesList $opcodesList,
-        protected array $data,
+        protected array $data_array,
         private TextExtractor $textExtractor,
         protected int $offset = 0,
     ) {
+        $this->data = new \Helper\FastBuffer($this->data_array);
     }
 
     public function generateScript(float $version, int $updateMode = 0, int $offset = 0): array
     {
-        $this->totalSize = count($this->data);
+        $this->totalSize = $this->data->count();
         $script = [];
         $isFileStart = true;
         // Only for title.ws2, as it has empty zero offset at the start which could not be read in normal ways
@@ -33,7 +36,7 @@ class Struct
             $offset --;
         }
         while($this->totalSize > 0) {
-            $command = array_shift($this->data);
+            $command = $this->data->shift();
             $hex = $this->reader->getHex($command);
             if ($isFileStart && $hex === '00') {
                 $isFileStart = false;
@@ -74,7 +77,7 @@ class Struct
 
     private function generateOutputLine(int $displayNumbers, int $perLine = 8): string
     {
-        if (empty($this->data)) {
+        if ($this->data->isEmpty()) {
             return 'Full script processed';
         }
         $lines = [];
@@ -84,10 +87,10 @@ class Struct
                 $result[] = implode(' ', $lines);
                 $lines = [];
             }
-            $command = array_shift($this->data);
+            $command = $this->data->shift();
             $hex = $this->reader->getHex($command);
             $lines[] = $hex;
-            if (empty($this->data)) {
+            if ($this->data->isEmpty()) {
                 break;
             }
         }

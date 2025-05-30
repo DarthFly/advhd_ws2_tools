@@ -9,7 +9,7 @@ class Unk16 extends AbstractOpcode
     public const OPCODE = '16';
     public const FUNC = 'Unk16';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $size = 1;
         if ($this->version > 1.0) {

@@ -9,7 +9,7 @@ class UnkScreen extends AbstractOpcode
     public const OPCODE = 'F0';
     public const FUNC = 'UnkScreen';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $config = $this->reader->readData($dataSource, 1);
         $this->compiledSize = 2;

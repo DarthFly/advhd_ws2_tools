@@ -10,7 +10,7 @@ class LayerConfig extends AbstractOpcode
     public const OPCODE = '09';
     public const FUNC = 'LayerConfig';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $config = $this->reader->readData($dataSource, 3);
         $float = $this->reader->readFloat($dataSource);

@@ -12,7 +12,7 @@ class SoundUnk1 extends AbstractOpcode
     public const OPCODE = '29';
     public const FUNC = 'SoundUnk1';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $float1 = $this->reader->readFloat($dataSource);

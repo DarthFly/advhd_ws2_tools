@@ -10,7 +10,7 @@ class ExecuteFunction extends AbstractOpcode
     public const OPCODE = '1C';
     public const FUNC = 'ExecuteFunction';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$function, $len] = $this->reader->readString($dataSource);
         [$string, $strLen] = $this->reader->readString($dataSource);

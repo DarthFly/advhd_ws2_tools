@@ -9,7 +9,7 @@ class Unk75 extends AbstractOpcode
     public const OPCODE = '75';
     public const FUNC = 'Unk75'; // Set Variable From Another Variable?
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$name, $nameLen] = $this->reader->readString($dataSource);
         [$keyname, $keynameLen] = $this->reader->readString($dataSource); // ?
