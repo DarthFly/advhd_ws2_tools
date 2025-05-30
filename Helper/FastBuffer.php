@@ -134,4 +134,33 @@ class FastBuffer
 
         return $result;
     }
+
+    /**
+     * Unshifts bytes into the buffer by overwriting content before the current cursor.
+     * The offset is moved backward by the number of unshifted bytes.
+     * The total length of the buffer remains unchanged.
+     *
+     * @param array $bytes The array of bytes to unshift.
+     * @throws \RangeException If the operation would result in a negative offset.
+     */
+    public function unshift(array $bytes): void
+    {
+        $numBytes = count($bytes);
+        $newOffset = $this->offset - $numBytes;
+
+        if ($newOffset < 0) {
+            throw new \RangeException("We assume we are never going to overshoot the beginning of the string.");
+        }
+
+        // Overwrite content before the current cursor
+        for ($i = 0; $i < $numBytes; $i++) {
+            if (isset($bytes[$i])) {
+                $this->buffer[$newOffset + $i] = $bytes[$i];
+            }
+        }
+
+        // Move offset backward
+        $this->offset = $newOffset;
+        // Length remains unchanged as per requirement
+    }
 }

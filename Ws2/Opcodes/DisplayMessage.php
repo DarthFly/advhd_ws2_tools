@@ -28,7 +28,7 @@ class DisplayMessage extends AbstractMessage
         $this->textExtractor?->setMessage($message);
         $return = static::FUNC . " ($messageId, $layer, $type\n{$message}\n);";
         if ($this->updateMode > 0 && $this->version == 1.0) {
-            array_unshift($dataSource, 0x15, 0);
+            $dataSource->unshift([0x15, 0]);
             $this->compiledSize -= 2;
         }
         $this->content = $return;
