@@ -8,7 +8,7 @@ class LayersList extends AbstractOpcode
     public const OPCODE = '3F';
     public const FUNC = 'LayersList';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$amount] = $this->reader->readData($dataSource, 1);
         $layers = [];

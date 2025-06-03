@@ -12,7 +12,7 @@ class PrepareBackgroundArea extends AbstractOpcode
     public const OPCODE = '36';
     public const FUNC = 'PrepareBackgroundArea';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $floatWidth = $this->reader->readFloat($dataSource);

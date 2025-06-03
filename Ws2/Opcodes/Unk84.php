@@ -9,7 +9,7 @@ class Unk84 extends AbstractOpcode
     public const OPCODE = '84';
     public const FUNC = 'Unk84';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$s1, $s1Len] = $this->reader->readString($dataSource);
         [$s2, $s2Len] = $this->reader->readString($dataSource);

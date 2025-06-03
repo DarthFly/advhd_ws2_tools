@@ -8,7 +8,7 @@ class StopMusic extends AbstractOpcode
     public const OPCODE = '1F';
     public const FUNC = 'StopMusic';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$nameId, $idLen] = $this->reader->readString($dataSource);
         $seconds = $this->reader->readFloat($dataSource);

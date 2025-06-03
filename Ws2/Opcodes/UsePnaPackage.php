@@ -10,7 +10,7 @@ class UsePnaPackage extends AbstractOpcode
 
     protected ?int $validateKey = 1;
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         [$effectName, $nameLen] = $this->reader->readString($dataSource);

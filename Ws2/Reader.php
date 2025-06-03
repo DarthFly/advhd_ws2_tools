@@ -20,7 +20,7 @@ class Reader
     /**
      * @throws Exception
      */
-    public function readData(array &$dataSource, int $size): ?array
+    public function readData(\Helper\FastBuffer &$dataSource, int $size): ?array
     {
         if ($size < 1) {
             return null;
@@ -30,55 +30,39 @@ class Reader
             if (empty($dataSource)) {
                 throw new Exception("Unable to read data - incorrect size {$size} for code.");
             }
-            $result[] = array_shift($dataSource);
+            $result[] = $dataSource->shift();
             $size --;
         }
         return $result;
     }
 
-    public function readString(array &$dataSource): array
+    public function readString(\Helper\FastBuffer &$dataSource): array
     {
-        $stringLen = 0;
-        $result = '';
-        do {
-            $opcode = array_shift($dataSource);
-            if ($opcode > 0) {
-                $result .= chr($opcode);
-            }
-            $stringLen ++;
-        } while ($opcode > 0);
+        $initialOffset = $dataSource->offset; // Store initial offset to calculate length
+        $result = $dataSource->readString();
+        $stringLen = $dataSource->offset - $initialOffset; // Calculate length based on consumed bytes
         return [$result, $stringLen];
     }
 
-    public function get4Bytes(array &$dataSource): string
+    public function readFloat(\Helper\FastBuffer &$dataSource): float
     {
-        return chr(array_shift($dataSource)) . chr(array_shift($dataSource)) . chr(array_shift($dataSource)) . chr(array_shift($dataSource));
-    }
-
-    public function get2Bytes(array &$dataSource): string
-    {
-        return chr(array_shift($dataSource)) . chr(array_shift($dataSource));
-    }
-
-    public function readFloat(array &$dataSource): float
-    {
-        $result = unpack('f', $this->get4Bytes($dataSource));
+        $result = unpack('f', $dataSource->readFixedLengthString(4));
         return $result[1];
     }
 
-    public function readDWord(array &$dataSource): int
+    public function readDWord(\Helper\FastBuffer &$dataSource): int
     {
-        $result = unpack('V', $this->get4Bytes($dataSource));
+        $result = unpack('V', $dataSource->readFixedLengthString(4));
         return $result[1];
     }
 
-    public function readWord(array &$dataSource): int
+    public function readWord(\Helper\FastBuffer &$dataSource): int
     {
-        $result = unpack('v', $this->get2Bytes($dataSource));
+        $result = unpack('v', $dataSource->readFixedLengthString(2));
         return $result[1];
     }
 
-    public function readFloats(array &$dataSource, int $max): array
+    public function readFloats(\Helper\FastBuffer &$dataSource, int $max): array
     {
         $result = [];
         for ($i = 0; $i < $max; $i ++) {
@@ -87,7 +71,7 @@ class Reader
         return $result;
     }
 
-    public function readDWords(array &$dataSource, int $max): array
+    public function readDWords(\Helper\FastBuffer &$dataSource, int $max): array
     {
         $result = [];
         for ($i = 0; $i < $max; $i ++) {

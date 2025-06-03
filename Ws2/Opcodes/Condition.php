@@ -9,13 +9,13 @@ class Condition extends AbstractOpcodeWithPointer
     public const OPCODE = '01';
     public const FUNC = 'Condition';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$configValue] = $this->reader->readData($dataSource, 1);
         $this->compiledSize = 2;
         $this->content = static::FUNC . " ({$configValue}";
         // The "$configValue === 3" part is validation for mainmenu vs HOT_001 - one has IF, another doesn't.
-        if (in_array($configValue, [2,128,129,130,192], true) || ($configValue === 3 && in_array($dataSource[0],[50,51,127,128], true))) {
+        if (in_array($configValue, [2,128,129,130,192], true) || ($configValue === 3 && in_array($dataSource->current(),[50,51,127,128], true))) {
             $globalId = $this->reader->readWord($dataSource);
             $float = $this->reader->readFloat($dataSource); // Block id for CG_PAGES
             $pointer1 = $this->reader->readDWord($dataSource);

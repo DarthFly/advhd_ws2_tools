@@ -8,7 +8,7 @@ class MusicUnk1 extends AbstractOpcode
     public const OPCODE = '20';
     public const FUNC = 'MusicUnk1'; // Fade out?
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$nameId, $idLen] = $this->reader->readString($dataSource);
         $seconds = $this->reader->readFloat($dataSource);

@@ -10,7 +10,7 @@ class Unk42 extends AbstractOpcode
     public const OPCODE = '42';
     public const FUNC = 'Unk42';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $config = $this->reader->readData($dataSource, 2);

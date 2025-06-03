@@ -9,7 +9,7 @@ class DisplayMessage extends AbstractMessage
     public const OPCODE = '14';
     public const FUNC = 'DisplayMessage';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $messageId = $this->reader->readDWord($dataSource);
         [$layer, $length] = $this->reader->readString($dataSource);
@@ -29,7 +29,7 @@ class DisplayMessage extends AbstractMessage
         $return = static::FUNC . " ($messageId, $layer, $type\n{$message}\n);";
         // To update script from 1.0 version (maybe > 1.0.6?) to newer - code 15 (SetDisplayName('')) should be added as a reset
         if ($this->updateMode > 0 && $this->version == 1.0) {
-            array_unshift($dataSource, 0x15, 0);
+            $dataSource->unshift([0x15, 0]);
             $this->compiledSize -= 2;
         }
         $this->content = $return;

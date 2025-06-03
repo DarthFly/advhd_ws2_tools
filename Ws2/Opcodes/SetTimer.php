@@ -9,7 +9,7 @@ class SetTimer extends AbstractOpcode
     public const OPCODE = '11';
     public const FUNC = 'SetTimer';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$name, $len] = $this->reader->readString($dataSource);
         if ($this->version > 1.4) {

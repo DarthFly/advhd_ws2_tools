@@ -9,7 +9,7 @@ class Jump extends AbstractOpcodeWithPointer
     public const OPCODE = '06';
     public const FUNC = 'Jump';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $pointerId = $this->reader->readDWord($dataSource);
         $this->compiledSize = 1 + 4;

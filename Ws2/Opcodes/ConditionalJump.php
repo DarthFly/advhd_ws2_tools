@@ -9,7 +9,7 @@ class ConditionalJump extends AbstractOpcodeWithPointer
     public const OPCODE = 'E6';
     public const FUNC = 'ConditionalJump';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $pointerId = $this->reader->readDWord($dataSource);
         $pointerId2 = $this->reader->readDWord($dataSource);

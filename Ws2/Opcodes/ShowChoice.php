@@ -12,7 +12,7 @@ class ShowChoice extends AbstractOpcodeWithPointer
     public const OPCODE = '0F';
     public const FUNC = 'ShowChoice';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$choiceAmount] = $this->reader->readData($dataSource, 1); // Assumed ???
         $choices = '';

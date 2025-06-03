@@ -12,7 +12,7 @@ class Effect44 extends AbstractOpcode
     public const OPCODE = '44';
     public const FUNC = 'Effect44';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         [$effectName, $nameLen] = $this->reader->readString($dataSource);

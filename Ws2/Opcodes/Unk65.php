@@ -9,7 +9,7 @@ class Unk65 extends AbstractOpcode
     public const OPCODE = '65';
     public const FUNC = 'C65';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $config = $this->reader->readData($dataSource, 3);
         $float = $this->reader->readFloat($dataSource);

@@ -9,7 +9,7 @@ class AddMessageToLog extends AbstractMessage
     public const OPCODE = '18';
     public const FUNC = 'AddMessageToLog';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $config = $this->reader->readData($dataSource, 1);
         [$message, $length] = $this->reader->readString($dataSource);

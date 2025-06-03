@@ -12,7 +12,7 @@ class CharMessageStart extends AbstractOpcode
     public const OPCODE = '2E';
     public const FUNC = 'CharMessageStart';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $this->compiledSize = 1;
         $this->content = static::FUNC;

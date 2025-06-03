@@ -8,7 +8,7 @@ class FileEnd extends AbstractOpcode
     public const OPCODE = 'FF';
     public const FUNC = 'FileEnd';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $someId = $this->reader->readDWord($dataSource);
         $configBytes = $this->reader->readData($dataSource, 4);

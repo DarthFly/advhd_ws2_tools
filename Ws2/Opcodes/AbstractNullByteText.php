@@ -6,7 +6,7 @@ namespace Ws2\Opcodes;
  */
 abstract class AbstractNullByteText extends AbstractOpcode
 {
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$string, $len] = $this->reader->readString($dataSource);
         $this->compiledSize = 1 + $len;

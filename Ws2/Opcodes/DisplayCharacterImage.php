@@ -9,7 +9,7 @@ class DisplayCharacterImage extends AbstractOpcode
     public const OPCODE = '39';
     public const FUNC = 'DisplayCharacterImage';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         $config = $this->reader->readData($dataSource, 3);

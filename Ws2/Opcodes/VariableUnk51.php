@@ -8,7 +8,7 @@ class VariableUnk51 extends AbstractOpcode
     public const OPCODE = '51';
     public const FUNC = 'VariableUnk51';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$variable, $varLen] = $this->reader->readString($dataSource);
         [$variable2, $var2Len] = $this->reader->readString($dataSource);

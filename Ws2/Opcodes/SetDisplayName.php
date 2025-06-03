@@ -12,7 +12,7 @@ class SetDisplayName extends AbstractOpcode
     public const OPCODE = '15';
     public const FUNC = 'SetDisplayName';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$charName, $nameLen] = $this->reader->readString($dataSource);
         $this->compiledSize = 1 + $nameLen;

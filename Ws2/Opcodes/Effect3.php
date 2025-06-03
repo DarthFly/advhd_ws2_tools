@@ -12,7 +12,7 @@ class Effect3 extends AbstractOpcode
     public const OPCODE = '58';
     public const FUNC = 'Effect3';
 
-    public function decompile(array &$dataSource): self
+    public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         [$effectName, $nameLen] = $this->reader->readString($dataSource);
