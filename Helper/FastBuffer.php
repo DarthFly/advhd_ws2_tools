@@ -36,13 +36,22 @@ class FastBuffer
     }
 
     /**
+     * Returns value at the current pointer, in case you need to read in advance for some validations.
+     * @return int
+     */
+    public function current(): int
+    {
+        return $this->buffer[$this->offset];
+    }
+
+    /**
      * Shifts an element off the beginning of the buffer.
      * This method is similar to array_shift but operates by incrementing an internal offset,
      * making it more efficient for large arrays as it avoids re-indexing.
      *
-     * @return mixed|null The shifted element, or null if the buffer is empty.
+     * @return int|null The shifted element, or null if the buffer is empty.
      */
-    public function shift()
+    public function shift(): ?int
     {
         if ($this->offset < $this->length) {
             return $this->buffer[$this->offset++];
