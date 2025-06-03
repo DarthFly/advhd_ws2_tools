@@ -15,7 +15,7 @@ class PlayMusic extends AbstractOpcode
         [$nameId, $idLen] = $this->reader->readString($dataSource);
         [$filename, $nameLen] = $this->reader->readString($dataSource);
         $size = 13;
-        if ($this->version > 1.0) {
+        if ($this->version > 1.06) {
             $size += 4;
         }
         $config = $this->reader->readData($dataSource, $size);

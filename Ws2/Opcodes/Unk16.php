@@ -12,7 +12,7 @@ class Unk16 extends AbstractOpcode
     public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         $size = 1;
-        if ($this->version > 1.0) {
+        if ($this->version > 1.06) {
             $size ++;
         }
         $options = $this->reader->readData($dataSource, $size);

@@ -15,7 +15,7 @@ class Condition extends AbstractOpcodeWithPointer
         $this->compiledSize = 2;
         $this->content = static::FUNC . " ({$configValue}";
         // The "$configValue === 3" part is validation for mainmenu vs HOT_001 - one has IF, another doesn't.
-        if (in_array($configValue, [2,128,129,130], true) || ($configValue === 3 && in_array($dataSource->buffer[0],[50,51,127,128], true))) {
+        if (in_array($configValue, [2,128,129,130,192], true) || ($configValue === 3 && in_array($dataSource->buffer[0],[50,51,127,128], true))) {
             $globalId = $this->reader->readWord($dataSource);
             $float = $this->reader->readFloat($dataSource); // Block id for CG_PAGES
             $pointer1 = $this->reader->readDWord($dataSource);
@@ -45,7 +45,7 @@ class Condition extends AbstractOpcodeWithPointer
         $code = $this->reader->convertHexToChar(static::OPCODE) .
             pack('c', $params[0]);
         $this->compiledSize = 2;
-        if (in_array($params[0], [2,128,129,130]) || ($params[0] === "3" && count($params)>3)) {
+        if (in_array($params[0], [2,128,129,130,192]) || ($params[0] === "3" && count($params)>3)) {
             $code .= pack('vf', (int)$params[1], (float)$params[2]);
             if ($params[3] > 0) {
                 $this->pointers[] = $params[3];
