@@ -16,7 +16,6 @@ class Struct
         protected OpcodesList $opcodesList,
         protected array $data,
         private TextExtractor $textExtractor,
-        protected int $offset = 0,
     ) {
     }
 
@@ -24,20 +23,21 @@ class Struct
     {
         $this->totalSize = count($this->data);
         $script = [];
-        $isFileStart = true;
         // Only for title.ws2, as it has empty zero offset at the start which could not be read in normal ways
-        while ($offset > 0) {
-            $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
-            $opcode->decompile($this->data);
-            $script[] = $opcode;
-            $offset --;
+        if ($offset > 0) {
+            $i = 1; //
+            while ($this->data[$i] === 0) {
+                $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
+                $opcode->decompile($this->data);
+                $script[] = $opcode;
+                $this->totalSize--;
+                unset($this->data[$i]);
+                $i++;
+            }
         }
         while($this->totalSize > 0) {
             $command = array_shift($this->data);
             $hex = $this->reader->getHex($command);
-            if ($isFileStart && $hex === '00') {
-                $isFileStart = false;
-            }
             try {
                 $class = $this->opcodesList->getByOpcode($hex);
                 $class = 'Ws2\\Opcodes\\' . $class;
@@ -46,7 +46,6 @@ class Struct
                 $opcode->decompile($this->data);
                 $this->registerLabels($opcode);
                 $script[] = $opcode;
-                $isFileStart = false;
             } catch (Exception $e) {
                 $this->processOpcodeException($command, $script, $e->getMessage());
             }

@@ -3,7 +3,7 @@ $folder = $argv[1] ?? null;
 $version = $argv[2] ?? '1.9';
 
 if (!$folder || !is_dir($folder)) {
-    echo "Usage: php ws2_decompile.php DIR_TO_UNPACK 1.0|1.4|1.9";
+    echo "Usage: php ws2_decompile.php DIR_TO_UNPACK 1.0|1.06|1.4|1.9";
     exit();
 }
 include_once "class_loader.php";
@@ -32,7 +32,7 @@ $textExtractor = new Helper\TextExtractor($options['text_file']);
 // If you want to skip some files, ex: ['title.ws2' => 1]
 $ignoreFiles = [];
 
-$specificFiles = [/*'title.ws2' => 1*/];
+$specificFiles = ['title.ws2' => 1];
 
 // To skip first N files if you don't want to unpack them on any run
 $skip = 0;
@@ -62,10 +62,9 @@ foreach ($files as $id => $file) {
     }
     $offset = 0;
     if (array_key_exists($fileName, $specificFiles)) {
-        array_shift($data);
         $offset = $specificFiles[$fileName];
     }
-    $struct = new Ws2\Struct($reader, $opcodesList, $data, $textExtractor, $offset);
+    $struct = new Ws2\Struct($reader, $opcodesList, $data, $textExtractor);
     $script = $struct->generateScript($version, $updateMode, $offset);
     file_put_contents($file . '.src', implode("\n", $script));
     echo "Parsed time: " . round(microtime(true) - $time, 2) . "\n";

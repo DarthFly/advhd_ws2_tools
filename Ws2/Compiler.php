@@ -44,7 +44,7 @@ class Compiler
                 }
                 if ($line === 'ZeroOffset') {
                     $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
-                    $opcode->preCompile($params, $this->scriptLines, $messageId);
+                    $opcode->preCompile('', $this->scriptLines, $messageId);
                     $code[] = $opcode;
                     continue;
                 }

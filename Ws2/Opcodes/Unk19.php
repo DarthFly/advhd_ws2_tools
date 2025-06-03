@@ -24,9 +24,12 @@ class Unk19 extends AbstractOpcode
     public function preCompile(?string $params = null): self
     {
         $params = $this->reader->unpackParams($params);
-        $this->content = $this->reader->convertHexToChar(static::OPCODE) .
-            $this->reader->packArray($params, 'c', 3, 'intval');
-        $this->compiledSize = 1 + 3;
+        $this->content = $this->reader->convertHexToChar(static::OPCODE);
+        $this->compiledSize = 1;
+        if ($this->version > 1.4) {
+            $this->content .= $this->reader->packArray($params, 'c', 3, 'intval');
+            $this->compiledSize += 3;
+        }
         return $this;
     }
 }

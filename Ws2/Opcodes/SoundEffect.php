@@ -21,7 +21,7 @@ class SoundEffect extends AbstractOpcode
         $float1 = $this->reader->readFloat($dataSource);
         $float2 = $this->reader->readFloat($dataSource);
         $size = 10;
-        if ($this->version > 1.0) {
+        if ($this->version > 1.06) {
             $size += 4;
         }
         $configBytes = $this->reader->readData($dataSource, $size);

@@ -15,7 +15,7 @@ class DisplayMessage extends AbstractMessage
         [$layer, $length] = $this->reader->readString($dataSource);
         [$message, $messageLen] = $this->reader->readString($dataSource);
         $this->compiledSize = 1 + 4 + $length + $messageLen;
-        if ($this->version > 1.0) {
+        if ($this->version > 1.06) {
             [$type] = $this->reader->readData($dataSource, 1);
             $this->compiledSize += 1;
         } else {
@@ -27,6 +27,7 @@ class DisplayMessage extends AbstractMessage
 
         $this->textExtractor?->setMessage($message);
         $return = static::FUNC . " ($messageId, $layer, $type\n{$message}\n);";
+        // To update script from 1.0 version (maybe > 1.0.6?) to newer - code 15 (SetDisplayName('')) should be added as a reset
         if ($this->updateMode > 0 && $this->version == 1.0) {
             array_unshift($dataSource, 0x15, 0);
             $this->compiledSize -= 2;
@@ -50,8 +51,10 @@ class DisplayMessage extends AbstractMessage
         $code = $this->reader->convertHexToChar(static::OPCODE) .
             pack('V', (int)$messageId) .
             $this->reader->packString($layer) .
-            $this->reader->packString($message) .
-            pack ('c', (int)$type);
+            $this->reader->packString($message);
+        if ($this->version > 1.06) {
+            $code .= pack('c', (int)$type);
+        }
         $this->content = $code;
         return $this;
     }
