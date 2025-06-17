@@ -5,7 +5,6 @@ use Exception;
 
 /**
  * 58 [string=channel][NULL][string=effect_name][NULL]
- * [byte * 8]
  */
 class Effect3 extends AbstractOpcode
 {
@@ -16,11 +15,9 @@ class Effect3 extends AbstractOpcode
     {
         [$channel, $channelLen] = $this->reader->readString($dataSource);
         [$effectName, $nameLen] = $this->reader->readString($dataSource);
-        $config = $this->reader->readData($dataSource, 8);
-        $this->compiledSize = 1 + $channelLen + $nameLen + 8;
+        $this->compiledSize = 1 + $channelLen + $nameLen;
 
-        $this->content = static::FUNC . " ({$channel}, {$effectName}, ".
-            "".implode(', ', $config).")";
+        $this->content = static::FUNC . " ({$channel}, {$effectName})";
         return $this;
     }
 
@@ -30,9 +27,7 @@ class Effect3 extends AbstractOpcode
 
         $this->content = $this->reader->convertHexToChar(static::OPCODE) .
             $this->reader->packString($params[0]) .
-            $this->reader->packString($params[1]) .
-            pack('c8', (int)$params[2], (int)$params[3], (int)$params[4], (int)$params[5], (int)$params[6],
-                (int)$params[7], (int)$params[8], (int)$params[9]);
+            $this->reader->packString($params[1]);
         return $this;
     }
 }
