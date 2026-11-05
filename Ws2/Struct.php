@@ -31,7 +31,7 @@ class Struct
         // Only for title.ws2, as it has empty zero offset at the start which could not be read in normal ways
         if ($offset > 0) {
             while ($this->data->current() === 0) {
-                $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
+                $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $persistentData, $updateMode);
                 $opcode->decompile($this->data);
                 $script[] = $opcode;
                 $this->totalSize--;

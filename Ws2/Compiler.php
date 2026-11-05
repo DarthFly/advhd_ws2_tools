@@ -2,6 +2,7 @@
 namespace Ws2;
 
 use Exception;
+use Helper\PersistentContainer;
 use Ws2\Opcodes\AbstractOpcode;
 
 class Compiler
@@ -19,6 +20,7 @@ class Compiler
     {
         $isComment = false;
         $code = [];
+        $persistentData = new PersistentContainer();
         $messageId = 0;
         while (($line = array_shift($this->scriptLines)) || $line !== null) {
             try {
@@ -43,7 +45,7 @@ class Compiler
                     continue;
                 }
                 if ($line === 'ZeroOffset') {
-                    $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $updateMode);
+                    $opcode = new \Ws2\ZeroOpcode($this->reader, $version, $persistentData, $updateMode);
                     $opcode->preCompile('', $this->scriptLines, $messageId);
                     $code[] = $opcode;
                     continue;
@@ -54,7 +56,7 @@ class Compiler
                 $className = $this->opcodesList->getByFunctions($function);
                 $class = 'Ws2\\Opcodes\\' . $className;
                 /** @var AbstractOpcode $opcode */
-                $opcode = new $class($this->reader, $version, $updateMode);
+                $opcode = new $class($this->reader, $version, $persistentData, $updateMode);
                 $opcode->preCompile($params, $this->scriptLines, $messageId);
                 $code[] = $opcode;
             } catch (Exception $e) {

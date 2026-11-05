@@ -10,11 +10,11 @@ class Reader
     public function __construct(string $encoding)
     {
         $encoding = ucfirst(strtolower($encoding));
-        if ($encoding && !method_exists($this, 'readString'.$encoding)) {
-            echo "Encoding {$this->encoding} is not supported. Either use uft16 or nothing.";
+        if ($encoding && !method_exists($this, 'getString'.$encoding)) {
+            echo "Encoding {$encoding} is not supported. Either use uft16 or nothing.";
             exit();
         }
-        $this->stringMethod = 'readString'.$encoding;
+        $this->stringMethod = 'getString'.$encoding;
     }
 
     public function getHex(int $code): string
@@ -51,16 +51,18 @@ class Reader
     public function readString(\Helper\FastBuffer &$dataSource): array
     {
         $initialOffset = $dataSource->offset; // Store initial offset to calculate length
-        if ($this->stringMethod) {
-            $result = $this->readStringUtf16($dataSource);
-        } else {
-            $result = $dataSource->readString();
-        }
+        $result = $this->{$this->stringMethod}($dataSource);
         $stringLen = $dataSource->offset - $initialOffset; // Calculate length based on consumed bytes
         return [$result, $stringLen];
     }
 
-    public function readStringUtf16(\Helper\FastBuffer &$dataSource): string
+    /** One byte string */
+    public function getString(\Helper\FastBuffer &$dataSource): string
+    {
+        return $dataSource->readString();
+    }
+
+    public function getStringUtf16(\Helper\FastBuffer &$dataSource): string
     {
         return $dataSource->read2ByteString();
     }
@@ -114,7 +116,7 @@ class Reader
     public function packString(string $text): string
     {
         $end =  chr(00);
-        if ($this->stringMethod) {
+        if ($this->stringMethod != 'getString') {
             $text = mb_convert_encoding($text,  'UTF-16LE','UTF-8');
             $end = chr(00) . chr(00);
         }

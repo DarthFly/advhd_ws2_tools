@@ -13,7 +13,7 @@ $options = $extractor->extractParams($argv, [
     new Helper\OptionParam('decrypt', '0', ['d', 'dec']), // 0 / 1
     new Helper\OptionParam('mode', 'default', ['m']), // default / update / debug
     new Helper\OptionParam('text_file', null, ['text', 'file', 't']),
-    new Helper\OptionParam('encoding', null, ['enc', 'e']), // utf16
+    new Helper\OptionParam('encoding', '', ['enc', 'e']), // utf16
 ]);
 
 $version = (float)$version;

@@ -12,6 +12,8 @@ class ShowChoice extends AbstractOpcodeWithPointer
     public const OPCODE = '0F';
     public const FUNC = 'ShowChoice';
 
+    private array $postPointerData = [];
+
     public function decompile(\Helper\FastBuffer &$dataSource): self
     {
         [$choiceAmount] = $this->reader->readData($dataSource, 1); // Assumed ???
@@ -47,6 +49,7 @@ class ShowChoice extends AbstractOpcodeWithPointer
         $this->compiledSize = 1 + 1;
         $code = $this->reader->convertHexToChar(static::OPCODE) .
             pack('c', (int)$choiceAmount);
+        $lastPointer = null;
 
         for ($i=0; $i < $choiceAmount; $i++) {
             $messageParams = array_shift($scriptLines);
@@ -67,11 +70,17 @@ class ShowChoice extends AbstractOpcodeWithPointer
             if ($opJump === 7) {
                 $messageCode .= $this->reader->packString($pointer);
                 $this->compiledSize += strlen($messageCode);
-                $code .= $messageCode;
+                if ($lastPointer !== null) {
+                    if (empty($this->postPointerData[$lastPointer])) $this->postPointerData[$lastPointer] = '';
+                    $this->postPointerData[$lastPointer] .= $messageCode;
+                } else {
+                    $code .= $messageCode;
+                }
             }
 
             // Jump format
             if ($opJump === 6) {
+                $lastPointer = $pointer;
                 $this->compiledSize += strlen($messageCode) + 4;
                 $this->pointers[$pointer] = $messageCode;
             }
@@ -106,6 +115,9 @@ class ShowChoice extends AbstractOpcodeWithPointer
                 throw new Exception('Unable to find pointer for ' . static::OPCODE . ' and label ' . $label);
             }
             $code .= $messageCode . pack('V', $pointer);
+            if (isset($this->postPointerData[$label])) {
+                $code .= $this->postPointerData[$label];
+            }
         }
         return $this->content . $code;
     }
